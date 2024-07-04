@@ -1,10 +1,13 @@
-export class Conta{
+﻿export class Conta{
+
+    // Definir os Atributos da Classe (Caracteristicas)
     private _numero: number;
     private _agencia: number;
     private _tipo: number;
     private _titular: string;
     private _saldo: number;
 
+    // Definimos o Método Construtor, responsável por criar os Objetos da Classe
 	constructor(numero: number, agencia: number, tipo: number, titular: string, saldo: number) {
 		this._numero = numero;
 		this._agencia = agencia;
@@ -13,6 +16,7 @@ export class Conta{
 		this._saldo = saldo;
 	}
 
+    // Definidos os Métodos Get e Set de cada Atributo
 	public get numero(): number {
 		return this._numero;
 	}
@@ -20,11 +24,10 @@ export class Conta{
 	public get agencia(): number {
 		return this._agencia;
 	}
-
+ 
 	public get tipo(): number {
 		return this._tipo;
 	}
-
 
 	public get titular(): string {
 		return this._titular;
@@ -33,7 +36,7 @@ export class Conta{
 	public get saldo(): number {
 		return this._saldo;
 	}
-
+ 
 	public set numero(value: number) {
 		this._numero = value;
 	}
@@ -49,12 +52,13 @@ export class Conta{
 	public set titular(value: string) {
 		this._titular = value;
 	}
-
+ 
 	public set saldo(value: number) {
 		this._saldo = value;
 	}
 
-     public sacar(valor: number): boolean{
+    // Método Sacar dinheiro da conta
+    public sacar(valor: number): boolean{
 
         if(this._saldo < valor){
             console.log("Saldo é insuficiente!")
@@ -66,15 +70,18 @@ export class Conta{
 
     }
 
+    // Método Depositar
     public depositar(valor: number): void{
 
         this._saldo = this._saldo + valor;
 
     }
 
+    // Método para visualizar todos os dados do Objeto
     public visualizar(): void{
+
         let tipo: string = "";
- 
+
         switch(this._tipo){
             case 1:
                 tipo = "Conta Corrente";
@@ -83,13 +90,15 @@ export class Conta{
                 tipo = "Conta Poupança";
             break
         }
-        console.log('\n*************************************');
-        console.log('Dados da conta');
-        console.log('\n*************************************');
-        console.log(`\nNumero da conta: ${this._numero}`);
-        console.log(`\nNumero da agencia: ${this._agencia}`);
-        console.log(`\ntipo de conta: ${tipo}`);
-        console.log(`\nNome titular: ${this._titular}`);
-        console.log(`\nNumero do saldo: ${this._saldo}`);
+
+        console.log('\n******************************************');
+        console.log('Dados da Conta');
+        console.log('******************************************');
+        console.log(`Numero da conta: ${this._numero}`);
+        console.log(`Numero da agência: ${this._agencia}`);
+        console.log(`Tipo da conta: ${tipo}`);
+        console.log(`Titular da conta: ${this._titular}`);
+        console.log(`Saldo da conta: R$ ${this._saldo.toFixed(2)}`);
     }
+
 }
