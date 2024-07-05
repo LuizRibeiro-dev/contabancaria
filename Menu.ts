@@ -6,32 +6,6 @@ export function main() {
 
     let opcao: number;
 
-    //const c1: Conta = new Conta(1, 1234, 1, 'Julia Zoratti', 800000.00);
-    //const c2: Conta = new Conta(2, 1234, 2, 'Marcella Sanches', 600000.00);
-
-    //c1.visualizar();
-    //c2.visualizar();
-
-    //console.log(`\nO Saldo da conta 01 é: ${c1.saldo}`);
-
-    //c2.saldo = 900000.00;
-
-    //console.log(`\nO Saldo da conta 02 é: ${c2.saldo}`);
-
-    //console.log(`\nSacar 100.00 Reais da Conta C1: ${c1.sacar(100)}`); // true
-    //c1.visualizar();
-
-    //console.log(`\nSacar 1000000.00 Reais da Conta C2: ${c2.sacar(1000000)}`); // false
-    //c2.visualizar();
-
-    //console.log(`\nDepositar 200000.00 Reais da Conta C1: `); 
-    //c1.depositar(200000)
-    //c1.visualizar();
-
-    //console.log(`\nDepositar 300000.25 Reais da Conta C2: `); 
-    //c2.depositar(300000.25)
-    //c2.visualizar();
-
     const cc1: ContaCorrente = new ContaCorrente(3, 1234, 1, 'Carlos Antonio', 1000000.00, 100000.00);
     const cc2: ContaCorrente = new ContaCorrente(4, 1234, 1, 'Raimundo Sousa', 1000.00, 100.00);
 
