@@ -1,4 +1,4 @@
-import { Conta } from "../conta";
+import { Conta } from "../Conta";
 
 export interface ContaRepository{
     procurarPorNumero (numero: number): void;

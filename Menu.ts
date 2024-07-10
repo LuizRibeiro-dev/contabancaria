@@ -1,26 +1,21 @@
 import readlinesync = require("readline-sync");
 import {colors} from './src/util/colors';
-import { Conta } from "./src/model/conta";
 import { ContaCorrente } from "./src/model/ContaCorrente";
+import { ContaController } from "./src/Controller/Controller";
+import { ContaPoupanca } from "./src/model/ContaPoupança";
 export function main() {
 
-    let opcao: number;
+    let opcao, numero, agencia, tipo, saldo, limite, aniversario: number;
+    let titular: string;
+    const tipoContas = ["Conta Corrente","Conta Poupanca"]
 
-    const cc1: ContaCorrente = new ContaCorrente(3, 1234, 1, 'Carlos Antonio', 1000000.00, 100000.00);
-    const cc2: ContaCorrente = new ContaCorrente(4, 1234, 1, 'Raimundo Sousa', 1000.00, 100.00);
+    const contas: ContaController = new ContaController();
 
-    cc1.visualizar();
-    cc2.visualizar();
+    contas.cadastrar(new ContaCorrente(contas.gerarNumero(), 1234, 1, 'Amanda Magro', 1000000.00, 100000.00));
+    contas.cadastrar(new ContaCorrente(contas.gerarNumero(), 4578, 1, 'João da Silva', 1000.00, 100.00));
 
-    console.log(`\nSaque de R$ 25.000,00 na Conta CC1: ${cc1.sacar(25000)}`);
-    cc1.visualizar();
-
-    console.log(`\nSaque de R$ 1.500,00 na Conta CC2: ${cc2.sacar(15000)}`);
-
-    console.log(`\nDepositar R$ 3.000.99 Reais da Conta CC2: `); 
-    cc2.depositar(3000.99)
-    cc2.visualizar();
-
+    contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), 5789, 2, "Geana Almeida", 10000, 10));
+    contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), 5698, 2, "Jean Lima", 15000, 15));
 
     while (true) {
 
@@ -59,38 +54,117 @@ export function main() {
             case 1:
                 console.log("\n\nCriar Conta\n\n");
 
+                console.log('digite o numero da agencia: ')
+                agencia = readlinesync.questionInt("")
+                
+                console.log('digite o nome do titular da conta: ')
+                titular = readlinesync.question("")
+                
+                console.log('digite o tipo da conta: ')
+                tipo = readlinesync.keyInSelect(tipoContas, "", { cancel: false}) +1;
+                
+                console.log('digite o saldo da conta: ')
+                saldo = readlinesync.questionInt("")
+
+                switch (tipo){
+                    case 1:
+                console.log('digite o limite da conta: ')
+                limite = readlinesync.questionFloat("")
+                contas.cadastrar(
+                    new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite)
+                )
+                    break;
+                    case 2:
+                console.log('digite a data de aniversario da conta: ')
+                aniversario = readlinesync.questionInt("")
+                contas.cadastrar(
+                    new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario)
+                )
+                    break;
+                }
+                keyPress()
                 break;
             case 2:
                 console.log("\n\nListar todas as Contas\n\n");
-
+                contas.listarTodas();
+                keyPress()
                 break;
             case 3:
                 console.log("\n\nConsultar dados da Conta - por número\n\n");
+                
+                console.log("Digite o número da Conta: ")
+                numero = readlinesync.questionInt("");
 
+                contas.procurarPorNumero(numero);
+                keyPress()
                 break;
             case 4:
                 console.log("\n\nAtualizar dados da Conta\n\n");
+                console.log("Digite o número da Conta: ")
+                numero = readlinesync.questionInt("");
 
+                let conta = contas.buscarNoArray(numero);
+
+                if (conta) {
+
+                    console.log('Digite o Número da Agência: ');
+                    agencia = readlinesync.questionInt("");
+
+                    console.log('Digite o Nome do Titular da Conta: ');
+                    titular = readlinesync.question("");
+
+                    console.log('Digite o Saldo da Conta: ');
+                    saldo = readlinesync.questionFloat("");
+
+                    tipo = conta.tipo;
+
+                    switch (tipo) {
+                        case 1:
+                            console.log('Digite o Limite da Conta: ');
+                            limite = readlinesync.questionFloat("");
+                            contas.atualizar(
+                                new ContaCorrente(numero, agencia, tipo, titular, saldo, limite)
+                            )
+                            break;
+                        case 2:
+                            console.log('Digite a Data de Aniversário da Conta: ');
+                            aniversario = readlinesync.questionInt("");
+                            contas.atualizar(
+                                new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario)
+                            )
+                            break;
+                    }
+
+                } else {
+                    console.log(`\nA Conta número: ${numero} não foi encontrada!`)
+                }
+
+                keyPress()
                 break;
             case 5:
                 console.log("\n\nApagar uma Conta\n\n");
+                console.log("Digite o número da Conta: ")
+                numero = readlinesync.questionInt("");
 
+                contas.deletar(numero);
+
+                keyPress()
                 break;
             case 6:
                 console.log("\n\nSaque\n\n");
-
+                keyPress()
                 break;
             case 7:
                 console.log("\n\nDepósito\n\n");
-
+                keyPress()
                 break;
             case 8:
                 console.log("\n\nTransferência entre Contas\n\n");
-
+                keyPress()
                 break;
             default:
                 console.log("\nOpção Inválida!\n");
-
+                keyPress()
                 break;
         }
     }
@@ -107,5 +181,11 @@ export function sobre(): void {
     console.log(colors.bg.green,"Github.com/LuizRibeiro-dev",colors.bg.blue);
     console.log("*****************************************************",colors.reset);
 }
+function keyPress(): void {
+    console.log(colors.reset, "");
+    console.log("\nPressione enter para continuar...");
+    readlinesync.prompt();
+}
+ 
 
 main();
