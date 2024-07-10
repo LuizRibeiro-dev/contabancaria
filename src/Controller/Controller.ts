@@ -37,11 +37,9 @@ export class ContaController implements ContaRepository{
             console.log("\nA Conta não foi encontrada!");
     }
 
-    deletar(conta: number): void {
-         let buscaConta = this.buscarNoArray(this.numero);
-         //erro no this.buscarNoArray(this.numero); o "numero"
+    deletar(numero: number): void {
+         let buscaConta = this.buscarNoArray(numero);
        
-
         if(buscaConta !==  null){
             this.listaContas.splice(this.listaContas.indexOf(buscaConta), 1);
             console.log("\nA Conta foi excluída!")
@@ -49,13 +47,36 @@ export class ContaController implements ContaRepository{
             console.log("\nA Conta não foi encontrada!");
     }
     sacar(numero: number, valor: number): void {
-        throw new Error("Method not implemented.");
+        let buscaConta = this.buscarNoArray(numero);
+
+        
+        if (buscaConta !== null) {
+
+            if (buscaConta.sacar(valor) === true)
+                console.log("\nO Saque foi efetuado com sucesso!")
+        } else
+            console.log("\nA Conta não foi encontrada!");
     }
     depositar(numero: number, valor: number): void {
-        throw new Error("Method not implemented.");
+        let buscaConta = this.buscarNoArray(numero);
+
+        if (buscaConta !== null) {
+            buscaConta.depositar(valor);
+            console.log("\nO Depósito foi efetuado com sucesso!")
+        } else
+            console.log("\nA Conta não foi encontrada!");
     }
     transferir(numeroOrigem: number, numeroDestino: number, valor: number): void {
-        throw new Error("Method not implemented.");
+        let buscaContaOrigem = this.buscarNoArray(numeroOrigem);
+        let buscaContaDestino = this.buscarNoArray(numeroDestino);
+
+        if (buscaContaOrigem !== null && buscaContaDestino !== null) {
+            if (buscaContaOrigem.sacar(valor) === true){
+                buscaContaDestino.depositar(valor);
+                console.log("\nA Transfrência foi efetuada com sucesso!")
+            }
+        } else
+            console.log("\nA Conta de Origem e/ou Destino não foram encontradas!");
     }
 
 
